@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+
+<fx:root type="javafx.scene.control.MenuBar" xmlns="http://javafx.com/javafx/14.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sh.owl.javaFxSampleApp.mainWindow.controls.menuBar.SweetMenuBarController">
+    <Menu mnemonicParsing="false" text="File">
+        <MenuItem mnemonicParsing="false" text="New" />
+        <SeparatorMenuItem mnemonicParsing="false" />
+        <MenuItem mnemonicParsing="false" text="Open" />
+        <SeparatorMenuItem mnemonicParsing="false" />
+        <MenuItem mnemonicParsing="false" text="Settings" />
+        <MenuItem mnemonicParsing="false" onAction="#onClose" text="Close" />
+    </Menu>
+    <Menu mnemonicParsing="false" text="Edit">
+        <MenuItem mnemonicParsing="false" text="Undo" />
+        <MenuItem mnemonicParsing="false" text="Redo" />
+        <SeparatorMenuItem mnemonicParsing="false" />
+        <MenuItem mnemonicParsing="false" text="Cut" />
+        <MenuItem mnemonicParsing="false" text="Copy" />
+        <MenuItem mnemonicParsing="false" text="Paste" />
+    </Menu>
+    <Menu mnemonicParsing="false" text="Help">
+        <MenuItem mnemonicParsing="false" text="Help" />
+        <SeparatorMenuItem mnemonicParsing="false" />
+        <MenuItem mnemonicParsing="false" text="About" />
+        <SeparatorMenuItem mnemonicParsing="false" />
+        <MenuItem mnemonicParsing="false" text="Check for updates" />
+    </Menu>
+</fx:root>

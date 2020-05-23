@@ -1,0 +1,40 @@
+desktop-linux-deb:
+  image: openjdk:14-jdk-slim
+  tags:
+    - docker
+  only:
+    - master
+  script:
+    - chmod +x ./gradlew
+    - export GRADLE_USER_HOME=$(pwd)/.gradle
+    - apt update && apt install -y openjfx git fakeroot
+    - ./gradlew jpackage
+  artifacts:
+    paths:
+      - build/jpackage/*.deb
+  cache:
+    key: ${CI_PROJECT_ID}-lin
+    paths:
+      - .gradle/wrapper
+      - .gradle/caches
+
+desktop-windows:
+  tags:
+    - shared-windows
+  only:
+    - master
+  script:
+    - $global:progressPreference = 'silentlyContinue'
+    - Invoke-WebRequest -Uri https://download.bell-sw.com/java/14.0.1+8/bellsoft-jdk14.0.1+8-windows-amd64-full.zip -OutFile jdk.zip
+    - Expand-Archive jdk.zip
+    - Remove-Item jdk.zip
+    - mv bellsoft* jdk
+    - mv jdk/jdk* jdk\jdk
+    - $Env:JAVA_HOME = $PWD.path + "\jdk\jdk"
+
+    - choco install -y -i wixtoolset --version=3.10.3.300702
+
+    - ./gradlew.bat jpackage
+  artifacts:
+    paths:
+      - build/jpackage/*.msi

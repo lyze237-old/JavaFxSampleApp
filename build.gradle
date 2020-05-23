@@ -1,0 +1,83 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'org.beryx.jlink' version '2.19.0'
+}
+
+def getGitHash = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-list', '--count', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+group 'sh.owl'
+version = '0.1.'+ getGitHash()
+mainClassName = 'sh.owl.javaFxSampleApp.App'
+applicationName = 'JavaFxSampleApp'
+
+repositories {
+    mavenCentral()
+}
+
+javafx {
+    version = "14"
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.swing' ]
+}
+
+jlink {
+    addExtraDependencies("javafx")
+    jpackage {
+        if(org.gradle.internal.os.OperatingSystem.current().windows) {
+            installerType = 'msi'
+            imageOptions += ['--win-console']
+            installerOptions += ['--win-per-user-install', '--win-dir-chooser', '--win-menu', '--win-shortcut', '--win-menu-group', "owl.sh"]
+            //imageOptions += ['--icon', 'src/main/resources/icons/Icon.ico']
+        }
+        else {
+            installerType = 'deb'
+            installerOptions += ['--linux-menu-group', '--linux-shortcut']
+            //imageOptions += ['--icon', 'src/main/resources/icons/Icon-128.png']
+        }
+    }
+}
+
+tasks.prepareMergedJarsDir.doLast {
+    if(org.gradle.internal.os.OperatingSystem.current().windows) {
+        delete fileTree("build/jlinkbase/jlinkjars") {
+            include "**/*linux.jar"
+        }
+    }
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ["src/main/java", "src/main/resources"]
+            includes = ["**/*.fxml", "**/*.properties"]
+        }
+    }
+}
+
+dependencies {
+    // logging
+    implementation 'org.slf4j:slf4j-api:2.0.0-alpha1'
+    implementation 'org.slf4j:slf4j-simple:2.0.0-alpha1'
+
+    // java fx
+    implementation 'org.controlsfx:controlsfx:11.0.1'
+
+    // lombock
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.12'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+    // testing
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+}
+

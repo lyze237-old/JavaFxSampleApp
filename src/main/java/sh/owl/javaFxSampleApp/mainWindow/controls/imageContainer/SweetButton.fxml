@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root prefHeight="500.0" prefWidth="500.0" type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/14.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sh.owl.javaFxSampleApp.mainWindow.controls.imageContainer.SweetButtonController">
+    <center>
+        <Button fx:id="button" mnemonicParsing="false" onAction="#buttonClicked" text="Button" BorderPane.alignment="CENTER" />
+    </center>
+</fx:root>
